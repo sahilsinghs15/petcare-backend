@@ -7,7 +7,7 @@ import sendEmailPassReset from "../utils/sendEmailResetPassword.js";
 import cloudinary from 'cloudinary';
 
 const cookieOptions = {
-  secure: process.env.NODE_ENV === 'production' ? true : false,
+  secure: false,
   maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
   httpOnly: true,
 };

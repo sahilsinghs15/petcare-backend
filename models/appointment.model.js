@@ -1,6 +1,7 @@
 import {Schema , model} from 'mongoose';
 
 const appointmentSchema = new Schema({
+
     petOwner : {
         type : String,
         required : true
@@ -21,6 +22,11 @@ const appointmentSchema = new Schema({
         type : String,
         required : true
     },
+    status : {
+        type : String,
+        enum : ['Pending','Approved'],
+        default : 'Pending'
+    }
 },{timestamps : true});
 
 const Appointment = model('Appointment' , appointmentSchema);
