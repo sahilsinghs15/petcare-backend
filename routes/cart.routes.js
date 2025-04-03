@@ -10,13 +10,9 @@ import { isLoggedIn } from '../middlewares/authmiddleware.js';
 const router = Router();
 
 // {{URL}}/api/v1/cart
-router.route('/')
-  .get(isLoggedIn, getCart) // Get cart items for logged-in user
-  .post(isLoggedIn, addToCart) // Add item to cart for logged-in user
-  .put(isLoggedIn,updateCartItem);//Update Cart item for logged-in user
-
-// {{URL}}/api/v1/cart/:productId
-router.route('/:productId')
-  .delete(isLoggedIn, removeFromCart); // Remove item from cart by product ID for logged-in user
+router.get('/',isLoggedIn,getCart);
+router.post('/add/:productId',isLoggedIn,addToCart);
+router.put('/update/:productId',isLoggedIn,updateCartItem);
+router.delete('/delete/:productId',isLoggedIn,removeFromCart);
 
 export default router;

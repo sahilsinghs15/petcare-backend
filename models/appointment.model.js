@@ -1,7 +1,11 @@
 import {Schema , model} from 'mongoose';
 
 const appointmentSchema = new Schema({
-
+    userId :{
+        type : Schema.Types.ObjectId,
+        ref : 'User',
+        required : true
+    },
     petOwner : {
         type : String,
         required : true
@@ -24,7 +28,7 @@ const appointmentSchema = new Schema({
     },
     status : {
         type : String,
-        enum : ['Pending','Approved'],
+        enum : ['Pending','Approved','Cancelled'],
         default : 'Pending'
     }
 },{timestamps : true});

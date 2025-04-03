@@ -10,6 +10,9 @@ import appError from '../utils/appError.js';
 export const createProduct = asyncHandler(async (req, res, next) => {
   let { name, description, price, category, stock, images } = req.body;
 
+  if (!name || !description || !price || !category || !stock) {
+    return next(new appError('All fields are required', 400));
+  }
   // Convert the name to lowercase and remove spaces
   name = name.toLowerCase().replace(/\s+/g, '');
 

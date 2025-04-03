@@ -50,12 +50,13 @@ const orderSchema = new Schema({
   paymentInfo: {
     method: {
       type: String,
-      enum: ['Paid', 'Unpaid', 'COD'],
-      default: 'Unpaid',
+      enum: ['CreditCard', 'COD', 'DigitalWallet'],
+      default: 'COD',
     },
     status: {
       type: String,
-      required: true,
+      enum: ['Paid', 'Unpaid'],
+      default: 'Unpaid',
     },
   },
   totalPrice: {
@@ -75,13 +76,7 @@ const orderSchema = new Schema({
     ],
     default: 'Pending',
   },
-  deliveredAt: {
-    type: Date,
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
+ 
 },
 {
   timestamps: true,

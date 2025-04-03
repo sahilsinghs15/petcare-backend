@@ -21,7 +21,7 @@ router.route('/')
   .post(isLoggedIn, (req, res, next) => {
     req.body.paymentInfo = {
       method: req.body.paymentInfo.method || 'COD', // Default to COD if not provided
-      status: 'Pending' // Default status
+      status: 'Unpaid'
     };
     next();
   }, createOrder);

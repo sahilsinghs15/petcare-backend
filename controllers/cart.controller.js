@@ -1,6 +1,7 @@
 import asyncHandler from 'express-async-handler';
 import User from '../models/user.model.js';
 import AppError from '../utils/appError.js';
+import Product from '../models/product.model.js';
 
 /**
  * @ADD_TO_CART
@@ -8,7 +9,8 @@ import AppError from '../utils/appError.js';
  * @ACCESS Private
  */
 export const addToCart = asyncHandler(async (req, res, next) => {
-  const { productId, quantity } = req.body;
+  const {quantity } = req.body;
+  const {productId} = req.params;
 
   if (!productId || !quantity) {
     return next(new AppError('Product ID and quantity are required', 400));
@@ -36,7 +38,7 @@ export const addToCart = asyncHandler(async (req, res, next) => {
   res.status(200).json({
     success: true,
     message: 'Item added to cart successfully',
-    cart: user.cart,
+    data : user.cart
   });
 });
 
@@ -46,7 +48,8 @@ export const addToCart = asyncHandler(async (req, res, next) => {
  * @ACCESS Private
  */
 export const updateCartItem = asyncHandler(async (req, res, next) => {
-  const { productId, quantity } = req.body;
+  const {productId} = req.params;
+  const { quantity } = req.body;
 
   if (!productId || !quantity) {
     return next(new AppError('Product ID and quantity are required', 400));
@@ -77,7 +80,7 @@ export const updateCartItem = asyncHandler(async (req, res, next) => {
   res.status(200).json({
     success: true,
     message: 'Cart item updated successfully',
-    cart: user.cart,
+    data : user.cart
   });
 });
 
@@ -106,7 +109,7 @@ export const removeFromCart = asyncHandler(async (req, res, next) => {
   res.status(200).json({
     success: true,
     message: 'Item removed from cart successfully',
-    cart: user.cart,
+    data: user.cart,
   });
 });
 
@@ -124,6 +127,7 @@ export const getCart = asyncHandler(async (req, res, next) => {
 
   res.status(200).json({
     success: true,
-    cart: user.cart,
+    message : "Cart fetched successfully",
+    data : user.cart
   });
 });

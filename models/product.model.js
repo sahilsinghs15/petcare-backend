@@ -19,7 +19,7 @@ const productSchema = new Schema({
   category: {
     type: String,
     required: [true, 'Product category is required'],
-    enum: ['Electronics', 'Clothing', 'Home', 'Beauty', 'Books', 'Other'], // Customize as needed
+    enum: ['Dog', 'Cat', 'Parrot', 'Hamster', 'Turtle', 'Other'], // Customize as needed
   },
   stock: {
     type: Number,

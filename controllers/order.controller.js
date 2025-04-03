@@ -43,9 +43,18 @@ export const createOrder = asyncHandler(async (req, res, next) => {
 
   const order = new Order({
     user: req.user.id,
-    orderItems: detailedOrderItems,
-    shippingAddress,
-    paymentInfo,
+    orderItems,
+    shippingAddress : {
+      street : shippingAddress.street,
+      city : shippingAddress.city,
+      state : shippingAddress.state,
+      zip : shippingAddress.zip,
+      country : shippingAddress.country
+    },
+    paymentInfo :{
+      method : paymentInfo.method,
+      status : paymentInfo.status
+    },
     totalPrice, 
   });
 
