@@ -63,7 +63,7 @@ export const createOrder = asyncHandler(async (req, res, next) => {
   res.status(201).json({
     success: true,
     message: 'Order created successfully',
-    order: createdOrder,
+    data: createdOrder,
   });
 });
 
@@ -82,7 +82,8 @@ export const getOrderById = asyncHandler(async (req, res, next) => {
 
   res.status(200).json({
     success: true,
-    order,
+    message :"Order fetched Successfully",
+    data:order,
   });
 });
 
@@ -106,30 +107,41 @@ export const updateOrderStatus = asyncHandler(async (req, res, next) => {
   res.status(200).json({
     success: true,
     message: 'Order status updated successfully',
-    order: updatedOrder,
+    data: updatedOrder,
   });
 });
 
 /**
- * @DELETE_ORDER
- * @ROUTE @DELETE {{URL}}/api/v1/orders/:id
- * @ACCESS Admin
+ * @CANCEL_ORDER
+ * @ROUTE @PUT {{URL}}/api/v1/orders/:id/cancel
+ * @ACCESS User
  */
-export const deleteOrder = asyncHandler(async (req, res, next) => {
+export const cancelOrder = asyncHandler(async (req, res, next) => {
   const order = await Order.findById(req.params.id);
 
   if (!order) {
     return next(new appError('Order not found', 404));
   }
 
-  await order.remove();
+  // Check if order is already cancelled or delivered
+  if (order.orderStatus === 'Cancelled') {
+    return next(new appError('Order is already cancelled', 400));
+  }
+
+  if (order.orderStatus === 'Delivered') {
+    return next(new appError('Cannot cancel delivered order', 400));
+  }
+
+  // Update order status to cancelled
+  order.orderStatus = 'Cancelled';
+  const updatedOrder = await order.save();
 
   res.status(200).json({
     success: true,
-    message: 'Order deleted successfully',
+    message: 'Order cancelled successfully',
+    data: updatedOrder
   });
 });
-
 /**
  * @GET_ORDERS
  * @ROUTE @GET {{URL}}/api/v1/orders
@@ -144,7 +156,8 @@ export const getOrders = asyncHandler(async (req, res, next) => {
 
   res.status(200).json({
     success: true,
-    orders,
+    message :"Orders fetched Successfully",
+    data:orders,
   });
 });
 
@@ -164,6 +177,7 @@ export const getUserOrders = asyncHandler(async (req, res, next) => {
 
     res.status(200).json({
       success:true,
-      orders,
+      message :"Orders fetched Successfully",
+      data:orders,
     })
 });

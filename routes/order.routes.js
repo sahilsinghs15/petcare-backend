@@ -3,9 +3,9 @@ import {
   createOrder,
   getOrderById,
   updateOrderStatus,
-  deleteOrder,
   getOrders,
   getUserOrders,
+  cancelOrder,
 } from '../controllers/order.controller.js';
 import { isLoggedIn, authorizeRoles } from '../middlewares/authmiddleware.js';
 
@@ -26,23 +26,13 @@ router.route('/')
     next();
   }, createOrder);
 
-/**
- * @GET_ORDER, @UPDATE_ORDER_STATUS, @DELETE_ORDER
- * @ROUTE @GET, @PUT, @DELETE {{URL}}/api/v1/orders/:id
- * @ACCESS User (GET), Admin (PUT, DELETE)
- */
-
-/**
- * @GET_ORDERS
- * @ROUTE @GET {{URL}}/api/v1/orders
- * @ACCESS Admin
- */
 router.route('/orders').get(isLoggedIn,getUserOrders);
 router.route('/').get(isLoggedIn, authorizeRoles('ADMIN'), getOrders);
 router.route('/:id')
   .get(isLoggedIn, getOrderById)
   .put(isLoggedIn, authorizeRoles('ADMIN'), updateOrderStatus)
-  .delete(isLoggedIn, authorizeRoles('ADMIN'), deleteOrder);
+
+router.put('/:id/cancel',isLoggedIn,cancelOrder);
 
 
 export default router;
